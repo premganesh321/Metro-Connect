@@ -1,0 +1,15 @@
+{
+  "name": "metro-route-finder",
+  "version": "1.0.0",
+  "description": "A web application to find the best metro route based on the lowest cost using Dijkstra's algorithm.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.0"
+  }
+}
