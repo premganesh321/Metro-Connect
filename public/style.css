@@ -1,0 +1,62 @@
+/* Basic reset and body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light background for better contrast */
+    margin: 0;
+    padding: 20px;
+}
+
+/* Styling the main container */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input fields styling */
+input[type="text"] {
+    width: calc(100% - 22px); /* Full width minus padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button styling */
+button {
+    padding: 10px 15px;
+    background-color: #28a745; /* Green button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Network container styling */
+#network {
+    position: relative;
+    width: 100%; /* Full width of the container */
+    height: 500px; /* Fixed height for the graph */
+    border: 1px solid #ccc; /* Border for visibility */
+    border-radius: 4px;
+    background-color: #e9ecef; /* Slightly darker background for contrast */
+    margin-bottom: 20px;
+}
+
+/* Train animation styling */
+.train {
+    width: 20px;
+    height: 20px;
+    background-color: yellow; /* Train color */
+    position: absolute;
+    border-radius: 50%; /* Round shape */
+    z-index: 10; /* Ensure the train is on top of other elements */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+}

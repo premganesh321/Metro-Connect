@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delhi Metro Route Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: block;
+            color: #34495e;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        select:focus {
+            border-color: #2980b9;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #27ae60;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #bdc3c7;
+        }
+        #network {
+            margin-top: 20px;
+            height: 500px;
+            border: 2px solid #bdc3c7;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .train {
+            width: 20px;
+            height: 20px;
+            background-color: #f39c12; /* Train color */
+            position: absolute;
+            border-radius: 50%; /* Round shape */
+            z-index: 10; /* Ensure the train is on top of other elements */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+        }
+    </style>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Delhi Metro Route Finder</h1>
+    
+    <label for="source">Select Source Station:</label>
+    <select id="source">
+        <option value="Kashmere Gate">Kashmere Gate</option>
+        <option value="Tis Hazari">Tis Hazari</option>
+        <option value="Chandni Chowk">Chandni Chowk</option>
+        <option value="Rajiv Chowk">Rajiv Chowk</option>
+        <option value="New Delhi">New Delhi</option>
+        <option value="Rohini West">Rohini West</option>
+        <option value="Rohini East">Rohini East</option>
+        <option value="Pitampura">Pitampura</option>
+        <option value="Inderlok">Inderlok</option>
+        <option value="Shahdara">Shahdara</option>
+        <option value="Dwarka Sector 21">Dwarka Sector 21</option>
+        <option value="Saket">Saket</option>
+        <option value="Dwarka Sector 9">Dwarka Sector 9</option>
+        <option value="Hazrat Nizamuddin">Hazrat Nizamuddin</option>
+        <option value="Jahangirpuri">Jahangirpuri</option>
+        <option value="Sarai Rohilla">Sarai Rohilla</option>
+        <option value="AIIMS">AIIMS</option>
+    </select>
+    
+    <label for="destination">Select Destination Station:</label>
+    <select id="destination">
+        <option value="Kashmere Gate">Kashmere Gate</option>
+        <option value="Tis Hazari">Tis Hazari</option>
+        <option value="Chandni Chowk">Chandni Chowk</option>
+        <option value="Rajiv Chowk">Rajiv Chowk</option>
+        <option value="New Delhi">New Delhi</option>
+        <option value="Rohini West">Rohini West</option>
+        <option value="Rohini East">Rohini East</option>
+        <option value="Pitampura">Pitampura</option>
+        <option value="Inderlok">Inderlok</option>
+        <option value="Shahdara">Shahdara</option>
+        <option value="Dwarka Sector 21">Dwarka Sector 21</option>
+        <option value="Saket">Saket</option>
+        <option value="Dwarka Sector 9">Dwarka Sector 9</option>
+        <option value="Hazrat Nizamuddin">Hazrat Nizamuddin</option>
+        <option value="Jahangirpuri">Jahangirpuri</option>
+        <option value="Sarai Rohilla">Sarai Rohilla</option>
+        <option value="AIIMS">AIIMS</option>
+    </select>
+    
+    <button onclick="findShortestPath()">Find Shortest Path</button>
+    
+    <div class="result" id="result"></div>
+    
+    <!-- Graph Visualization -->
+    <div id="network"></div>
+</div>
+
+<script>
+    // Delhi Metro stations graph representation (adjacency list with travel time and cost)
+    const delhiMetroGraph = {
+        'Rohini West': { 'Rohini East': { time: 4, cost: 20 } },
+        'Rohini East': { 'Rohini West': { time: 4, cost: 20 }, 'Pitampura': { time: 4, cost: 20 } },
+        'Pitampura': { 'Rohini East': { time: 4, cost: 20 }, 'Kohat Enclave': { time: 4, cost: 20 } },
+        'Kohat Enclave': { 'Pitampura': { time: 4, cost: 20 }, 'Netaji Subhash Place': { time: 4, cost: 20 } },
+        'Netaji Subhash Place': { 'Kohat Enclave': { time: 4, cost: 20 }, 'Keshav Puram': { time: 4, cost: 20 } },
+        'Keshav Puram': { 'Netaji Subhash Place': { time: 4, cost: 20 }, 'Kanhaiya Nagar': { time: 4, cost: 20 } },
+        'Kanhaiya Nagar': { 'Keshav Puram': { time: 4, cost: 20 }, 'Inderlok': { time: 4, cost: 20 } },
+        'Inderlok': { 'Kanhaiya Nagar': { time: 4, cost: 20 }, 'Shastri Nagar': { time: 4, cost: 20 } },
+        'Shastri Nagar': { 'Inderlok': { time: 4, cost: 20 }, 'Pratap Nagar': { time: 4, cost: 20 } },
+        'Pratap Nagar': { 'Shastri Nagar': { time: 4, cost: 20 }, 'Pulbangash': { time: 4, cost: 20 } },
+        'Pulbangash': { 'Pratap Nagar': { time: 4, cost: 20 }, 'Tis Hazari': { time: 4, cost: 20 } },
+        'Tis Hazari': { 'Pulbangash': { time: 4, cost: 20 }, 'Kashmere Gate': { time: 4, cost: 20 } },
+        'Kashmere Gate': { 'Tis Hazari': { time: 4, cost: 20 }, 'Shastri Park': { time: 4, cost: 20 }, 'Chandni Chowk': { time: 4, cost: 20 } },
+        'Shastri Park': { 'Kashmere Gate': { time: 4, cost: 20 }, 'Welcome': { time: 4, cost: 20 } },
+        'Welcome': { 'Shastri Park': { time: 4, cost: 20 }, 'Jahangirpuri': { time: 4, cost: 20 } },
+        'Jahangirpuri': { 'Welcome': { time: 4, cost: 20 }, 'Azadpur': { time: 4, cost: 20 } },
+        'Azadpur': { 'Jahangirpuri': { time: 4, cost: 20 }, 'Model Town': { time: 4, cost: 20 } },
+        'Model Town': { 'Azadpur': { time: 4, cost: 20 }, 'Civil Lines': { time: 4, cost: 20 } },
+        'Civil Lines': { 'Model Town': { time: 4, cost: 20 }, 'Vidhan Sabha': { time: 4, cost: 20 } },
+        'Vidhan Sabha': { 'Civil Lines': { time: 4, cost: 20 }, 'Rajiv Chowk': { time: 4, cost: 20 } },
+        'Rajiv Chowk': { 'Vidhan Sabha': { time: 4, cost: 20 }, 'Connaught Place': { time: 4, cost: 20 }, 'New Delhi': { time: 4, cost: 20 } },
+        'New Delhi': { 'Rajiv Chowk': { time: 4, cost: 20 }, 'Hazrat Nizamuddin': { time: 4, cost: 20 } },
+        'Hazrat Nizamuddin': { 'New Delhi': { time: 4, cost: 20 }, 'Sarai Rohilla': { time: 4, cost: 20 } },
+        'Sarai Rohilla': { 'Hazrat Nizamuddin': { time: 4, cost: 20 }, 'AIIMS': { time: 4, cost: 20 } },
+        'AIIMS': { 'Sarai Rohilla': { time: 4, cost: 20 }, 'Dwarka Sector 21': { time: 4, cost: 20 } },
+        'Dwarka Sector 21': { 'AIIMS': { time: 4, cost: 20 }, 'Dwarka Sector 9': { time: 4, cost: 20 } },
+        'Dwarka Sector 9': { 'Dwarka Sector 21': { time: 4, cost: 20 }, 'Shahdara': { time: 4, cost: 20 } },
+        'Shahdara': { 'Dwarka Sector 9': { time: 4, cost: 20 }, 'Chandni Chowk': { time: 4, cost: 20 } },
+        'Chandni Chowk': { 'Shahdara': { time: 4, cost: 20 }, 'Rajiv Chowk': { time: 4, cost: 20 } }
+    };
+
+    // Dijkstra's algorithm to find shortest path considering time and cost
+    function dijkstra(source, destination) {
+        const costs = {};
+        const times = {};
+        const previous = {};
+        const queue = new Set();
+        for (const station in delhiMetroGraph) {
+            costs[station] = Infinity;
+            times[station] = Infinity;
+            previous[station] = null;
+            queue.add(station);
+        }
+        costs[source] = 0;
+        times[source] = 0;
+
+        while (queue.size) {
+            const current = [...queue].reduce((minNode, node) => {
+                return costs[node] < costs[minNode] ? node : minNode;
+            }, [...queue][0]);
+
+            if (current === destination) {
+                const path = [];
+                let temp = destination;
+                while (temp) {
+                    path.unshift(temp);
+                    temp = previous[temp];
+                }
+                return {
+                    path,
+                    time: times[destination],
+                    cost: costs[destination],
+                };
+            }
+
+            queue.delete(current);
+
+            for (const neighbor in delhiMetroGraph[current]) {
+                const travelInfo = delhiMetroGraph[current][neighbor];
+                const newCost = costs[current] + travelInfo.cost;
+                const newTime = times[current] + travelInfo.time;
+
+                if (newCost < costs[neighbor]) {
+                    costs[neighbor] = newCost;
+                    times[neighbor] = newTime;
+                    previous[neighbor] = current;
+                }
+            }
+        }
+
+        return null; // No path found
+    }
+
+    // Function to find the shortest path and display the result
+    function findShortestPath() {
+        const source = document.getElementById("source").value;
+        const destination = document.getElementById("destination").value;
+
+        const result = dijkstra(source, destination);
+
+        const resultDiv = document.getElementById("result");
+        if (result) {
+            resultDiv.innerHTML = `Shortest Path: ${result.path.join(' -> ')}<br>Travel Time: ${result.time} minutes<br>Cost: ₹${result.cost}`;
+            drawGraph(result.path);
+        } else {
+            resultDiv.innerHTML = 'No path found.';
+        }
+    }
+
+    // Function to visualize the route on the graph
+    function drawGraph(path) {
+        const nodes = new vis.DataSet();
+        const edges = new vis.DataSet();
+        const uniqueStations = new Set(path);
+
+        // Add nodes for the path
+        uniqueStations.forEach((station) => {
+            nodes.add({ id: station, label: station });
+        });
+
+        // Add edges for the path
+        for (let i = 0; i < path.length - 1; i++) {
+            edges.add({ from: path[i], to: path[i + 1] });
+        }
+
+        const container = document.getElementById("network");
+        const data = { nodes, edges };
+        const options = {
+            edges: {
+                arrows: 'to'
+            }
+        };
+        const network = new vis.Network(container, data, options);
+    }
+</script>
+
+</body>
+</html>
