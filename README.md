@@ -1,54 +1,88 @@
 # Metro-Connect: Delhi Metro Route Finder
 
-## Overview
+### Overview
 
-Metro-Connect is a web-based application that helps users find the shortest path between two stations in the Delhi Metro network. Using Dijkstra's algorithm, it calculates the optimal route, providing information on travel time and estimated fare.
+**Metro-Connect** is an intuitive web-based application that helps users find the shortest path between two stations on the **Delhi Metro** network. By utilizing **Dijkstra's algorithm**, it efficiently calculates the optimal route, while also providing crucial travel information such as **total travel time** and an **estimated fare**. The application aims to streamline the commuter experience by offering a seamless, real-time solution for route planning in Delhi's extensive metro system.
 
-Visit the live application: [Metro-Connect Website](https://metro-connect.vercel.app/)
+> **Live Demo**: [Metro-Connect Website](https://metro-connect.vercel.app/)
 
-## Screenshots
+---
 
-Here are some screenshots of the Metro-Connect application in action:
+### Features
 
-![image](https://github.com/user-attachments/assets/8
+- **Interactive Station Selection**: Users can conveniently pick source and destination stations from a dropdown menu.
+- **Shortest Path Calculation**: Employs **Dijkstra's algorithm** to determine the fastest route between stations.
+- **Travel Information**: Provides both the total travel time and an estimate of the fare based on the journey duration.
+- **Optional Visual Representation**: A graphical visualization of the metro network enhances the user experience by clearly showing the route.
+- **User-Friendly Interface**: Clean, responsive, and easy-to-navigate design ensures a smooth experience for both first-time and returning users.
 
-[Screencast from 2024-10-21 12-56-04.webm](https://github.com/user-attachments/assets/81382d10-7419-4d68-8d9e-a7fad3f93fd1)
-72d7829-fe7a-4c32-baf2-f0900bcab114)
+---
 
-## Features
+### Screenshots
 
-- Interactive selection of source and destination stations
-- Calculation of the shortest path between selected stations
-- Display of total travel time
-- Estimation of fare based on travel duration
-- Visual representation of the Delhi Metro network (optional)
+Here are some visuals to give you a sneak peek of Metro-Connect in action:
 
-## Technologies Used
+![Metro-Connect](https://github.com/user-attachments/assets/8ab473cc-1d63-44d0-b840-ab259500584c)
 
-- HTML5
-- CSS3
-- JavaScript
-- Graph data structures
-- Dijkstra's algorithm for shortest path finding
+[Watch the Video Demo](https://github.com/user-attachments/assets/a788d891-1dee-4b09-8b90-a9af09a69da7)
 
-## Project Structure
+---
 
-- `index.html`: Main HTML file containing the user interface
-- `script.js`: JavaScript file with the core logic, including the graph representation and pathfinding algorithm
-- `style.css`: CSS file for styling the application
+### Technologies Used
 
-## How It Works
+The project leverages the following technologies:
 
-1. The Delhi Metro network is represented as a graph using an adjacency list.
-2. Users select their source and destination stations from dropdown menus.
-3. Upon clicking "Find Shortest Path", Dijkstra's algorithm is applied to find the optimal route.
-4. The application displays the path, total travel time, and estimated fare.
-5. A graph visualization of the route is dynamically generated, showing the stations and connections along the path.
+- **HTML5**: For creating the structure and layout of the web application.
+- **CSS3**: To enhance visual presentation and styling.
+- **JavaScript**: Core logic for implementing the interactive features.
+- **Graph Data Structures**: To represent the Delhi Metro network for efficient pathfinding.
+- **Dijkstra's Algorithm**: The backbone of the shortest path calculation.
 
-## Future Enhancements
+---
 
-- Real-time data integration
-- Mobile application development
-- Multi-language support
-- Accessibility features
-- Integration with map services for visual route display
+### How It Works
+
+1. **Graph Representation**: The Delhi Metro network is modeled as a graph using an adjacency list, where each station is a node and each connection is an edge with associated weights (travel time).
+2. **Station Selection**: Users choose a starting and ending station from easy-to-navigate dropdown lists.
+3. **Algorithm Execution**: Upon hitting "Find Shortest Path", **Dijkstra's algorithm** is applied to compute the optimal route between the two stations.
+4. **Results Display**: The application presents the user with:
+    - A **list of stations** to traverse.
+    - The **total travel time** for the journey.
+    - An **estimated fare** based on the distance.
+5. **Visual Route Representation**: The path is dynamically visualized in a graphical format, showcasing stations and connections.
+
+---
+
+### Project Structure
+
+- **index.html**: This is the main HTML file containing the user interface elements.
+- **script.js**: Core JavaScript logic that includes graph representation, pathfinding algorithms, and interactive functionality.
+- **style.css**: Responsible for the styling and layout of the web application, ensuring a clean and responsive design.
+
+---
+
+### Future Enhancements
+
+We envision expanding Metro-Connect with several powerful features:
+
+- **Real-time Data Integration**: Incorporating live data for delays, train timings, and metro line statuses.
+- **Mobile Application Development**: Extending the service to mobile platforms for easier on-the-go access.
+- **Multi-language Support**: Supporting various languages to cater to a broader audience in Delhi.
+- **Accessibility Features**: Ensuring the application is fully accessible to users with disabilities, including voice commands and screen reader support.
+- **Integration with Map Services**: Adding detailed visual route maps using services like Google Maps or Mapbox.
+
+---
+
+### How to Contribute
+
+If you're interested in contributing to the project, we welcome your ideas, feedback, and code contributions. Please feel free to:
+
+- **Fork the Repository**: Start by forking this project to your own GitHub account.
+- **Submit Pull Requests**: After making changes or enhancements, submit a pull request and we’ll review it as soon as possible.
+- **Report Issues**: Found a bug or have a feature request? Open an issue to let us know!
+
+---
+
+### License
+
+Metro-Connect is licensed under the [MIT License](LICENSE). Feel free to use and modify the code for your own projects.
