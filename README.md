@@ -61,27 +61,6 @@ The project leverages the following technologies:
 
 ---
 
-### Future Enhancements
-
-We envision expanding Metro-Connect with several powerful features:
-
-- **Real-time Data Integration**: Incorporating live data for delays, train timings, and metro line statuses.
-- **Mobile Application Development**: Extending the service to mobile platforms for easier on-the-go access.
-- **Multi-language Support**: Supporting various languages to cater to a broader audience in Delhi.
-- **Accessibility Features**: Ensuring the application is fully accessible to users with disabilities, including voice commands and screen reader support.
-- **Integration with Map Services**: Adding detailed visual route maps using services like Google Maps or Mapbox.
-
----
-
-### How to Contribute
-
-If you're interested in contributing to the project, we welcome your ideas, feedback, and code contributions. Please feel free to:
-
-- **Fork the Repository**: Start by forking this project to your own GitHub account.
-- **Submit Pull Requests**: After making changes or enhancements, submit a pull request and we’ll review it as soon as possible.
-- **Report Issues**: Found a bug or have a feature request? Open an issue to let us know!
-
----
 
 ### License
 
