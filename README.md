@@ -9,7 +9,11 @@ Visit the live application: [Metro-Connect Website](https://metro-connect.vercel
 ## Screenshots
 
 Here are some screenshots of the Metro-Connect application in action:
-![image](https://github.com/user-attachments/assets/872d7829-fe7a-4c32-baf2-f0900bcab114)
+
+![image](https://github.com/user-attachments/assets/8
+
+[Screencast from 2024-10-21 12-56-04.webm](https://github.com/user-attachments/assets/81382d10-7419-4d68-8d9e-a7fad3f93fd1)
+72d7829-fe7a-4c32-baf2-f0900bcab114)
 
 ## Features
 
